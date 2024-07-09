@@ -1,0 +1,262 @@
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+local Window = OrionLib:MakeWindow({Name = "VNP×Tele", HidePremium = false, SaveConfig = true, ConfigFolder = "OrionTest"})
+
+OrionLib:MakeNotification({
+	Name = "HackByHoangViet",
+	Content = "VNP Hack",
+	Image = "rbxassetid://4483345998",
+	Time = 5
+})
+
+local Tab1 = Window:MakeTab({
+	Name = "Teleport Đảo",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+
+local Section = Tab1:AddSection({
+	Name = "Teleport"
+})
+
+Tab1:AddButton({
+	Name = "PVP Arena",
+	Callback = function(z)
+      		game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(460.789459, 188.64946, -949.947327, 0.999660075, 0.0190608073, -0.0177897327, -6.21784846e-10, 0.682311058, 0.731062055, 0.026072761, -0.730813563, 0.682079077)
+  	end
+})
+Tab1:AddButton({
+	Name = "Safe zone",
+	Callback = function(z)
+      		game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(392.317841, 74.7032394, -579.410217, 0.536700666, 0.488598108, -0.68791306, -1.06487672e-08, 0.815282404, 0.579063654, 0.843772709, -0.310783863, 0.437562615)
+  	end    
+})
+
+Tab1:AddButton({
+	Name = "Đảo Event",
+	Callback = function(z)
+      		game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(824.929016, 76.6088867, 305.608551, -0.0355638824, 0.827651322, -0.560114801, 8.82632856e-11, 0.560469389, 0.828175187, 0.999367416, 0.0294531249, -0.0199324656)
+  	end    
+})
+
+Tab1:AddButton({
+	Name = " Đảo Snow|50-100",
+	Callback = function(z)
+      		game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-1008.68097, 201.000275, 405.559082, 0.794595599, 0.469210207, -0.385304749, -2.98021563e-09, 0.634623468, 0.772821486, 0.60713917, -0.614080548, 0.504268944)
+  	end    
+})
+
+Tab1:AddButton({
+	Name = "HangMU",
+	Callback = function(z)
+      		game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(1236.41553, 5262.00293, -141.81665, 0.991849303, 0.0988520011, -0.0803942829, 1.79991488e-09, 0.630956709, 0.77581805, 0.127416477, -0.769494593, 0.625813961)
+  	end    
+})
+
+Tab1:AddButton({
+	Name = "Đảo sa mạc|100-250",
+	Callback = function(z)
+      		game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-708.576172, 81.6707993, 1728.46765, -0.996755779, -0.0647194609, 0.0478486121, -6.55354937e-10, 0.594491422, 0.804101944, -0.0804866403, 0.801493287, -0.592562675)
+  	end    
+})
+
+Tab1:AddButton({
+	Name = "Đảo Sky|250-550",
+	Callback = function(z)
+      		game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-4604.32227, 4314.7168, 497.197479, 0.998134434, -0.0524759106, 0.0312105361, -6.25161478e-10, 0.511180043, 0.859473705, -0.0610558651, -0.857870281, 0.510226309)
+  	end    
+})
+
+Tab1:AddButton({
+	Name = "Thị Trấn Kết Thúc|550-900",
+	Callback = function(z)
+      		game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-2228.89429, 58.9676514, 1930.33325, -0.990575433, -0.0730208233, 0.11588081, -3.32575389e-09, 0.846039176, 0.533120751, -0.136968628, 0.528096318, -0.838065565)
+  	end    
+})
+
+Tab1:AddButton({
+	Name = "MinhMaMaGay| 900-1350",
+	Callback = function(z)
+      		game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(2563.90527, 63.7246552, -53.601284, 0.903063834, 0.36938417, -0.219160289, 1.67312386e-10, 0.510260701, 0.860019863, 0.42950654, -0.776652813, 0.460797936)
+  	end    
+})
+
+Tab1:AddButton({
+	Name = "Đảo bóng tối| 1350-2000",
+	Callback = function(z)
+      		game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-3451.67383, 103.910248, 3704.26855, -0.696418464, -0.660808623, 0.27988103, 1.51344484e-08, 0.390004188, 0.920813084, -0.717635989, 0.641271234, -0.271606088)
+  	end    
+})
+
+local Tab2 = Window:MakeTab({
+	Name = "WalkSpeed×JumpPower",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+
+local Section = Tab1:AddSection({
+	Name = "JumpPower×SpeedPower"
+})
+
+Tab2:AddButton({
+	Name = "Speed Hight×50",
+	Callback = function(z)
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+character:WaitForChild("Humanoid").SpeedPower = 50
+end
+})
+
+Tab2:AddButton({
+	Name = "Speed Hight×100",
+	Callback = function(z)
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+character:WaitForChild("Humanoid").SpeedPower = 100
+end
+})
+
+Tab2:AddButton({
+	Name = "Speed Hight×150",
+	Callback = function(z)
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+character:WaitForChild("Humanoid").SpeedPower = 150
+end
+})
+
+Tab2:AddButton({
+	Name = "Jump Hight×50",
+	Callback = function(z)
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+character:WaitForChild("Humanoid").JumpPower = 50
+end
+})
+
+Tab2:AddButton({
+	Name = "Jump Hight×100",
+	Callback = function(z)
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+character:WaitForChild("Humanoid").JumpPower = 100
+end
+})
+
+Tab2:AddButton({
+	Name = "Jump Hight×150",
+	Callback = function(z)
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+character:WaitForChild("Humanoid").JumpPower = 150
+end
+})
+
+Tab2:AddButton({
+	Name = "Jump Hight×200",
+	Callback = function(z)
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+character:WaitForChild("Humanoid").JumpPower = 200
+end
+})
+
+Tab2:AddButton({
+	Name = "Jump Hight×250",
+	Callback = function(z)
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+character:WaitForChild("Humanoid").JumpPower = 250
+end
+})
+
+Tab2:AddButton({
+	Name = "Speed Hight×200",
+	Callback = function(z)
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+character:WaitForChild("Humanoid").SpeedPower = 200
+end
+})
+
+Tab2:AddButton({
+	Name = "Speed Hight×250",
+	Callback = function(z)
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+character:WaitForChild("Humanoid").SpeedPower = 250
+end
+})
+
+local StatsTab = Window:MakeTab({
+	Name = "Auto Stats",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+
+local Section =StatsTab:AddSection({
+	Name = "stats"
+})
+
+StatsTab:AddToggle({
+     Name = "Auto Sword",
+     Default = false,
+     Callback = function(z)
+     getgenv(z)
+     autostats = z 
+     spawn(
+     function() 
+      while autostats do wait() 
+      for i = 1,50000 do game:GetService("ReplicatedStorage"):FindFirstChild("StatSystem"):WaitForChild("Points"):FireServer("Sword") 
+ wait() 
+end
+ end 
+ end) 
+ end})
+  
+StatsTab:AddToggle({
+     Name = "Auto Melee",
+     Default = false,
+     Callback = function(z)
+     getgenv(z)
+     autostats = z 
+     spawn(
+     function() 
+      while autostats do wait() 
+      for i = 1,50000 do game:GetService("ReplicatedStorage"):FindFirstChild("StatSystem"):WaitForChild("Points"):FireServer("Melee") 
+ wait() 
+end
+ end 
+ end) 
+ end})
+
+  StatsTab:AddToggle({
+     Name = "Auto Defense",
+     Default = false,
+     Callback = function(z)
+     getgenv(z)
+     autostats = z 
+     spawn(
+     function() 
+      while autostats do wait() 
+      for i = 1,50000 do game:GetService("ReplicatedStorage"):FindFirstChild("StatSystem"):WaitForChild("Points"):FireServer("MaxHealth") 
+ wait() 
+end
+ end 
+ end) 
+ end})
+
+ StatsTab:AddToggle({
+     Name = "Auto Fruit",
+     Default = false,
+     Callback = function(z)
+     getgenv(z)
+     autostats = z 
+     spawn(
+     function() 
+      while autostats do wait() 
+      for i = 1,50000 do game:GetService("ReplicatedStorage"):FindFirstChild("StatSystem"):WaitForChild("Points"):FireServer("DevilFruit") 
+ wait() 
+end
+ end 
+ end) 
+ end})
