@@ -1,0 +1,294 @@
+-- Load Rayfield UI
+local success, Rayfield = pcall(function()
+    return loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+end)
+if not success then
+    warn("Không thể tải Rayfield UI: " .. tostring(err))
+    game.StarterGui:SetCore("SendNotification", {
+        Title = "Lỗi Script",
+        Text = "Không tải được Rayfield UI: " .. tostring(err) .. ". Kiểm tra mạng hoặc URL!",
+        Duration = 10
+    })
+    return
+end
+
+-- Khai báo biến
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid", 5) -- Thêm timeout để tránh lỗi nil
+local rootPart = character:WaitForChild("HumanoidRootPart", 5)
+local fastAttackEnabled = false
+local autoFruitEnabled = false
+local fastAttackThread
+
+-- Tạo Window Rayfield (hiển thị ban đầu)
+local Window = Rayfield:CreateWindow({
+    Name = "Beta Hub💸",
+    LoadingTitle = "Đang tải...",
+    LoadingSubtitle = "Your mom",
+    ConfigurationSaving = {
+        Enabled = true,
+        FolderName = "BetaHubConfig",
+        FileName = "BetaHub"
+    },
+    Discord = {
+        Enabled = false,
+        Invite = "discord.gg/123456789",
+        RememberJoins = true
+    },
+    KeySystem = false,
+    KeySettings = {
+        Title = "Beta Hub Key",
+        Subtitle = "Nhập khóa để tiếp tục",
+        Note = "Liên hệ admin để lấy khóa",
+        FileName = "BetaHubKey",
+        SaveKey = true,
+        GrabKeyFromSite = false,
+        Key = {"Hello"}
+    }
+})
+
+-- Tạo Tab trong Rayfield
+local MainTab = Window:CreateTab("Chính", 4483345998)
+local CustomizeTab = Window:CreateTab("Tùy Chỉnh", 4483345998)
+
+-- Section cho Controls
+local MainSection = MainTab:CreateSection("Tính Năng")
+
+-- Hàm cập nhật nhân vật
+local function updateCharacter()
+    character = player.Character or player.CharacterAdded:Wait()
+    humanoid = character:WaitForChild("Humanoid", 5)
+    rootPart = character:WaitForChild("HumanoidRootPart", 5)
+end
+player.CharacterAdded:Connect(updateCharacter)
+
+-- Hàm Fast Attack (Tốc độ tối ưu cho mobile: 0.001s)
+local function startFastAttack()
+    if fastAttackThread then
+        task.cancel(fastAttackThread)
+        fastAttackThread = nil
+    end
+    
+    local tool = character:FindFirstChildOfClass("Tool")
+    if not tool then
+        fastAttackEnabled = false
+        MainSection:CreateToggle({
+            Name = "Fast Attack",
+            CurrentValue = false,
+            Flag = "FastAttackToggle",
+            Callback = function() end
+        }):Set(false)
+        return
+    end
+
+    fastAttackThread = task.spawn(function()
+        while fastAttackEnabled and character and humanoid.Health > 0 do
+            local currentTool = character:FindFirstChildOfClass("Tool")
+            if currentTool then
+                currentTool:Activate()
+            else
+                fastAttackEnabled = false
+                break
+            end
+            task.wait(0.001) -- Tốc độ tối ưu cho mobile, tránh lag
+        end
+    end)
+end
+
+local function stopFastAttack()
+    if fastAttackThread then
+        task.cancel(fastAttackThread)
+        fastAttackThread = nil
+    end
+end
+
+-- Hàm Auto Fruit (Tăng wait để tối ưu mobile)
+local function autoFruit()
+    local debounce = false
+    while autoFruitEnabled do
+        if not debounce then
+            debounce = true
+            for _, fruit in pairs(game.Workspace:GetChildren()) do
+                local grabTool = fruit:FindFirstChild("ProximityPrompt") or fruit:FindFirstChild("GrabTool")
+                local touchGrabTool = fruit:FindFirstChild("TouchInterest") or fruit.Name:lower():find("fruit") or fruit.Name:lower():find("devilfruit")
+                
+                if (grabTool or touchGrabTool) and fruit:IsA("BasePart") then
+                    local fruitPos = fruit.Position
+                    rootPart.CFrame = CFrame.new(fruitPos + Vector3.new(0, 5, 0))
+                    wait(1) -- Tăng wait để giảm tải mobile
+                    
+                    if grabTool and grabTool:IsA("ProximityPrompt") then
+                        fireproximityprompt(grabTool)
+                    elseif grabTool and grabTool:IsA("ClickDetector") then
+                        fireclickdetector(grabTool)
+                    end
+                end
+            end
+            debounce = false
+        end
+        wait(2) -- Tăng wait giữa các lần quét để giảm tải
+    end
+end
+
+-- Thêm Toggle cho Fast Attack
+MainSection:CreateToggle({
+    Name = "Fast Attack",
+    CurrentValue = false,
+    Flag = "FastAttackToggle",
+    Callback = function(Value)
+        fastAttackEnabled = Value
+        if fastAttackEnabled then
+            updateCharacter()
+            startFastAttack()
+        else
+            stopFastAttack()
+        end
+    end
+})
+
+-- Thêm Toggle cho Auto Fruit
+MainSection:CreateToggle({
+    Name = "Auto Fruit",
+    CurrentValue = false,
+    Flag = "AutoFruitToggle",
+    Callback = function(Value)
+        autoFruitEnabled = Value
+        if autoFruitEnabled then
+            task.spawn(autoFruit)
+        end
+    end
+})
+
+-- Section cho Tùy Chỉnh
+local CustomizeSection = CustomizeTab:CreateSection("Tùy Chỉnh Giao Diện")
+
+-- Thêm ColorPicker cho Màu Nền
+CustomizeSection:CreateColorPicker({
+    Name = "Màu Nền Hub",
+    Color = Color3.fromRGB(40, 40, 40),
+    Flag = "BackgroundColor",
+    Callback = function(Value)
+        Window:SetBackgroundColor3(Value)
+    end
+})
+
+-- Thêm ColorPicker cho Màu Chữ
+CustomizeSection:CreateColorPicker({
+    Name = "Màu Chữ Hub",
+    Color = Color3.fromRGB(255, 255, 255),
+    Flag = "TextColor",
+    Callback = function(Value)
+        Window:SetTextColor3(Value)
+    end
+})
+
+-- Kiểm tra thay đổi công cụ
+player.Backpack.ChildAdded:Connect(function(child)
+    if child:IsA("Tool") and fastAttackEnabled then
+        wait(0.1)
+        startFastAttack()
+    end
+end)
+
+character.ChildRemoved:Connect(function(child)
+    if child:IsA("Tool") and fastAttackEnabled then
+        stopFastAttack()
+        fastAttackEnabled = false
+    end
+end)
+
+-- Khởi tạo Rayfield UI
+Rayfield:LoadConfiguration()
+
+-- Tạo ScreenGui cho hình khối bo góc chứa QR code
+local qrScreenGui = Instance.new("ScreenGui")
+qrScreenGui.Name = "QRToggle"
+qrScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+qrScreenGui.ResetOnSpawn = false
+
+-- Tạo hình khối bo góc chứa QR code (nút bật/tắt UI Rayfield)
+local ToggleButton = Instance.new("ImageButton")
+ToggleButton.Size = UDim2.new(0, 100, 0, 100) -- Hình khối bo góc 100x100
+ToggleButton.Position = UDim2.new(0.5, -50, 0.9, -50) -- Vị trí ban đầu giữa dưới màn hình
+ToggleButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255) -- Nền trắng
+ToggleButton.BorderSizePixel = 0
+
+-- Thêm góc bo cho hình khối
+local UICorner = Instance.new("UICorner")
+UICorner.CornerRadius = UDim.new(0.2, 0) -- Bo góc 20% kích thước
+UICorner.Parent = ToggleButton
+
+-- Mô phỏng QR code với hình khối xám và đường kẻ (nếu không có Decal ID)
+local successImage, imageErr = pcall(function()
+    ToggleButton.Image = "rbxassetid://6023426915" -- Hình khối cơ bản (thay bằng Decal ID nếu có)
+end)
+if not successImage then
+    warn("Không thể tải hình ảnh QR: " .. imageErr)
+    ToggleButton.Image = "" -- Xóa hình ảnh nếu lỗi
+    ToggleButton.BackgroundColor3 = Color3.fromRGB(128, 128, 128) -- Màu xám nếu không tải được hình
+end
+ToggleButton.ImageColor3 = Color3.fromRGB(128, 128, 128) -- Màu xám mô phỏng QR
+local qrLines = Instance.new("Frame")
+qrLines.Size = UDim2.new(0.8, 0, 0.8, 0)
+qrLines.Position = UDim2.new(0.1, 0, 0.1, 0)
+qrLines.BackgroundTransparency = 1
+qrLines.Parent = ToggleButton
+
+local line1 = Instance.new("Frame")
+line1.Size = UDim2.new(0.1, 0, 0.8, 0)
+line1.Position = UDim2.new(0.2, 0, 0.1, 0)
+line1.BackgroundColor3 = Color3.fromRGB(0, 0, 0) -- Đường đen mô phỏng QR
+line1.Parent = qrLines
+
+local line2 = Instance.new("Frame")
+line2.Size = UDim2.new(0.8, 0, 0.1, 0)
+line2.Position = UDim2.new(0.1, 0, 0.2, 0)
+line2.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+line2.Parent = qrLines
+
+ToggleButton.Parent = qrScreenGui
+
+-- Thêm khả năng di chuyển (drag) cho hình khối
+local dragging = false
+local dragStart = nil
+local startPos = nil
+
+ToggleButton.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.Touch then
+        dragging = true
+        dragStart = input.Position
+        startPos = ToggleButton.Position
+    end
+end)
+
+ToggleButton.InputChanged:Connect(function(input)
+    if dragging and input.UserInputType == Enum.UserInputType.Touch then
+        local delta = input.Position - dragStart
+        local newX = math.clamp(startPos.X.Offset + delta.X, 0, qrScreenGui.AbsoluteSize.X - ToggleButton.AbsoluteSize.X)
+        local newY = math.clamp(startPos.Y.Offset + delta.Y, 0, qrScreenGui.AbsoluteSize.Y - ToggleButton.AbsoluteSize.Y)
+        ToggleButton.Position = UDim2.new(0, newX, 0, newY)
+    end
+end)
+
+game:GetService("UserInputService").InputEnded:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.Touch then
+        dragging = false
+    end
+end)
+
+-- Hàm bật/tắt UI Rayfield (sử dụng TouchTap cho mobile)
+ToggleButton.TouchTap:Connect(function()
+    local success, err = pcall(function()
+        isUIVisible = not isUIVisible
+        if isUIVisible then
+            Window:Toggle(true) -- Hiển thị UI
+        else
+            Window:Toggle(false) -- Ẩn UI
+        end
+        ToggleButton.ImageColor3 = isUIVisible and Color3.fromRGB(200, 200, 200) or Color3.fromRGB(128, 128, 128) -- Thay đổi màu khi nhấn
+    end)
+    if not success then
+        warn("Lỗi bật/tắt UI: " .. err)
+    end
+end)
